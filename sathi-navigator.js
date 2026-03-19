@@ -48,7 +48,6 @@
           --sathi-accent: #f59e0b;
         }
         #sathi-nav-trigger {
-          display: none !important;
           position: fixed;
           top: 14px;
           left: 14px;
@@ -61,7 +60,7 @@
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           color: white;
-          display: flex;
+          display: none !important;
           align-items: center;
           justify-content: center;
           cursor: pointer;
