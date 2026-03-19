@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 (() => {
   const PROMPT_ID = "sathi-notification-prompt";
   const DISMISS_KEY = `${location.pathname}:notification-prompt-dismissed-until`;
@@ -7,11 +7,18 @@
   const APP_SEGMENT = location.pathname.split("/").filter(Boolean)[0] || "";
   const APP_ID = APP_SEGMENT ? APP_SEGMENT.toLowerCase() : "";
   const INSTALL_KEY = APP_ID ? `sathi-installed-${APP_ID}` : "";
+  const LAST_OPEN_KEY = APP_ID ? `sathi-last-opened-${APP_ID}` : "";
   let refreshing = false;
 
   function markInstalled() {
     if (INSTALL_KEY) {
       localStorage.setItem(INSTALL_KEY, "true");
+    }
+  }
+
+  function markOpened() {
+    if (LAST_OPEN_KEY) {
+      localStorage.setItem(LAST_OPEN_KEY, String(Date.now()));
     }
   }
 
@@ -216,6 +223,8 @@
     document.body.appendChild(prompt);
   }
 
+  markOpened();
+
   if (window.matchMedia("(display-mode: standalone)").matches) {
     markInstalled();
   }
@@ -223,18 +232,20 @@
   window.addEventListener("appinstalled", markInstalled);
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
+      markOpened();
       void refreshInstalledShell();
     }
   });
   window.addEventListener("focus", () => {
+    markOpened();
     void refreshInstalledShell();
   });
 
   window.addEventListener("load", () => {
+    markOpened();
     void registerServiceWorker();
     if ("Notification" in window) {
       window.setTimeout(injectPrompt, 1400);
     }
   }, { once: true });
 })();
-
