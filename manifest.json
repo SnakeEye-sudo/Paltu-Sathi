@@ -1,0 +1,17 @@
+{
+  "name": "Paltu Sathi",
+  "short_name": "Paltu",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#2a1430",
+  "theme_color": "#2a1430",
+  "description": "Cute virtual pet app with local care meters, mood changes, pet naming, and playful feed/play/rest/clean actions.",
+  "icons": [
+    {
+      "src": "logo.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

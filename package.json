@@ -1,0 +1,13 @@
+{
+  "name": "paltu-sathi",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cute virtual pet app with local care meters, mood changes, pet naming, and playful feed/play/rest/clean actions.",
+  "scripts": {
+    "build": "esbuild src/app.ts --bundle --format=iife --target=es2020 --outfile=app.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "esbuild": "^0.25.2"
+  }
+}
