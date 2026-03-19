@@ -4,7 +4,16 @@
   const DISMISS_KEY = `${location.pathname}:notification-prompt-dismissed-until`;
   const GRANTED_KEY = `${location.pathname}:notification-prompt-granted`;
   const DAY = 24 * 60 * 60 * 1000;
+  const APP_SEGMENT = location.pathname.split("/").filter(Boolean)[0] || "";
+  const APP_ID = APP_SEGMENT ? APP_SEGMENT.toLowerCase() : "";
+  const INSTALL_KEY = APP_ID ? `sathi-installed-${APP_ID}` : "";
   let refreshing = false;
+
+  function markInstalled() {
+    if (INSTALL_KEY) {
+      localStorage.setItem(INSTALL_KEY, "true");
+    }
+  }
 
   async function refreshInstalledShell() {
     if (!("serviceWorker" in navigator)) return;
@@ -17,8 +26,7 @@
   }
 
   async function registerServiceWorker() {
-    if (!("serviceWorker" in navigator)) return null;
-    if (window.__sathiSwManaged) return navigator.serviceWorker.getRegistration();
+    if (!("serviceWorker" in navigator) || window.__sathiSwManaged) return null;
 
     window.__sathiSwManaged = true;
     navigator.serviceWorker.addEventListener("controllerchange", () => {
@@ -208,12 +216,16 @@
     document.body.appendChild(prompt);
   }
 
+  if (window.matchMedia("(display-mode: standalone)").matches) {
+    markInstalled();
+  }
+
+  window.addEventListener("appinstalled", markInstalled);
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") {
       void refreshInstalledShell();
     }
   });
-
   window.addEventListener("focus", () => {
     void refreshInstalledShell();
   });
@@ -225,3 +237,4 @@
     }
   }, { once: true });
 })();
+
