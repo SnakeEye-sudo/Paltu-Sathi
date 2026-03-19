@@ -1,11 +1,50 @@
-"use strict";
+﻿"use strict";
 (() => {
   const PROMPT_ID = "sathi-notification-prompt";
   const DISMISS_KEY = `${location.pathname}:notification-prompt-dismissed-until`;
   const GRANTED_KEY = `${location.pathname}:notification-prompt-granted`;
   const DAY = 24 * 60 * 60 * 1000;
+  let refreshing = false;
 
-  if (!("Notification" in window)) return;
+  async function refreshInstalledShell() {
+    if (!("serviceWorker" in navigator)) return;
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      await registration?.update();
+    } catch (error) {
+      console.error("Service worker refresh check failed", error);
+    }
+  }
+
+  async function registerServiceWorker() {
+    if (!("serviceWorker" in navigator)) return null;
+    if (window.__sathiSwManaged) return navigator.serviceWorker.getRegistration();
+
+    window.__sathiSwManaged = true;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
+
+    try {
+      const registration = await navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" });
+      registration.addEventListener("updatefound", () => {
+        const worker = registration.installing;
+        if (!worker) return;
+        worker.addEventListener("statechange", () => {
+          if (worker.state === "installed" && navigator.serviceWorker.controller) {
+            worker.postMessage({ type: "SKIP_WAITING" });
+          }
+        });
+      });
+      await registration.update();
+      return registration;
+    } catch (error) {
+      console.error("Service worker registration failed", error);
+      return null;
+    }
+  }
 
   function saveDismiss(days) {
     localStorage.setItem(DISMISS_KEY, String(Date.now() + days * DAY));
@@ -18,10 +57,6 @@
 
   function removePrompt() {
     document.getElementById(PROMPT_ID)?.remove();
-  }
-
-  function welcomeMessage() {
-    return document.title ? `${document.title} notifications are on.` : "Notifications are on.";
   }
 
   async function showWelcomeNotification() {
@@ -45,6 +80,7 @@
   }
 
   function injectPrompt() {
+    if (!("Notification" in window)) return;
     if (document.getElementById(PROMPT_ID) || isDismissed()) return;
     if (Notification.permission === "granted") {
       localStorage.setItem(GRANTED_KEY, "true");
@@ -172,7 +208,20 @@
     document.body.appendChild(prompt);
   }
 
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      void refreshInstalledShell();
+    }
+  });
+
+  window.addEventListener("focus", () => {
+    void refreshInstalledShell();
+  });
+
   window.addEventListener("load", () => {
-    window.setTimeout(injectPrompt, 1400);
+    void registerServiceWorker();
+    if ("Notification" in window) {
+      window.setTimeout(injectPrompt, 1400);
+    }
   }, { once: true });
 })();
