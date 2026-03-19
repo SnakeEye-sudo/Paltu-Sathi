@@ -471,3 +471,33 @@ h1, h2, h3 {
   .toolbar,
   .button-row { flex-wrap: wrap; }
 }
+
+.pet-shell {
+  background:
+    radial-gradient(circle at top right, rgba(255,255,255,0.08), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+}
+
+.pet-choice-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.species-card {
+  text-align: left;
+  cursor: pointer;
+}
+
+.species-card-active {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+}
+
+.pet-stage-cute {
+  margin-top: 8px;
+}
+
+@media (max-width: 980px) {
+  .pet-choice-grid {
+    grid-template-columns: 1fr;
+  }
+}

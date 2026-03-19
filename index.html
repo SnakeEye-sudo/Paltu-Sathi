@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#2a1430">
-  <meta name="description" content="Cute virtual pet app with local care meters, mood changes, pet naming, and playful feed/play/rest/clean actions.">
+  <meta name="theme-color" content="#141a12">
+  <meta name="description" content="Cute virtual pet app with actual animal choices, mood meters, care actions, and mini journal.">
   <title>Paltu Sathi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,73 +13,9 @@
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body data-theme="night">
-  <div class="ambient-layer">
-    <div class="ambient-orb orb-a"></div>
-    <div class="ambient-orb orb-b"></div>
-    <div class="ambient-grid"></div>
-    <div class="ambient-noise"></div>
-  </div>
-
-  <div class="page-shell">
-    <header class="hero">
-      <div class="hero-top">
-        <div class="brand-wrap">
-          <img src="logo.svg" alt="Paltu Sathi logo" class="brand-logo">
-          <div>
-            <p class="hero-tag">Pocket pet care</p>
-            <h1>Paltu Sathi</h1>
-          </div>
-        </div>
-        <a class="family-chip" href="https://snakeeye-sudo.github.io/Aapka-Sathi/">Aapka-Sathi family</a>
-      </div>
-
-      <div class="hero-grid">
-        <section class="hero-copy">
-          <p class="eyebrow">Toy-like companion board</p>
-          <h2 class="hero-headline">Ek cute virtual pet jise feed, play, rest, aur clean kar sakte ho.</h2>
-          <p class="hero-text">Joy, hunger, energy, aur clean meters ke saath lightweight virtual pet board jo family-friendly aur totally local hai.</p>
-          <div class="hero-badges">
-            <span class="hero-badge">Virtual pet</span><span class="hero-badge">Feed/play/rest</span><span class="hero-badge">Mood meter</span><span class="hero-badge">Local save</span>
-          </div>
-        </section>
-
-        <section class="hero-side">
-          <div class="metric-card">
-            <p class="eyebrow">Mood engine</p>
-            <h3>Care changes face</h3>
-            <strong>4 meters</strong>
-            <p class="muted">Small actions, visible mood shift.</p>
-          </div>
-          <div class="metric-card secondary">
-            <p class="eyebrow">Info</p>
-            <h3>Save style</h3>
-            <p class="muted">Pet state local browser me rehta hai.</p>
-          </div>
-        </section>
-      </div>
-    </header>
-
-    <main id="appRoot" class="app-root"></main>
-
-    <footer class="site-footer">
-      <div class="footer-brand">
-        <img src="logo.svg" alt="Paltu Sathi logo">
-        <div>
-          <strong>Paltu Sathi</strong>
-          <p>Playful care loop ko pocket-sized banane ke liye.</p>
-        </div>
-      </div>
-      <nav class="footer-links">
-        <a href="about.html">About</a>
-        <a href="resources.html">Resources</a>
-        <a href="contact.html">Contact</a>
-        <a href="privacy-policy.html">Privacy</a>
-        <a href="terms.html">Terms</a>
-      </nav>
-    </footer>
-  </div>
-
+<body>
+  <main id="appRoot" class="app-root"></main>
   <script src="app.js"></script>
+  <script defer src="notification-prompt.js"></script>
 </body>
 </html>
