@@ -48,6 +48,7 @@
           --sathi-accent: #f59e0b;
         }
         #sathi-nav-trigger {
+          display: none !important;
           position: fixed;
           top: 14px;
           left: 14px;
